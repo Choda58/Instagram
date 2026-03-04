@@ -1,0 +1,19 @@
+# IntelliJ
+.idea/
+*.iml
+
+# Java / Maven / Gradle
+target/
+build/
+out/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (ako imate frontend)
+node_modules/
+dist/
