@@ -1,5 +1,4 @@
 package com.instagram.followservice.model;
-
 import jakarta.persistence.*;
 import lombok.*;
 
