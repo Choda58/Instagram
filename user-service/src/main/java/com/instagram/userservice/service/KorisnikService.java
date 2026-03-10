@@ -18,7 +18,15 @@ public class KorisnikService {
 
     public Korisnik register(Korisnik user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(korisnikRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new RuntimeException("Username already exists");
+        }
+
+        if(korisnikRepository.findByEmail(user.getEmail()).isPresent()){
+            throw new RuntimeException("Email already exists");
+        }
         return korisnikRepository.save(user);
+
     }
 
     public List<Korisnik> all(){
@@ -60,5 +68,6 @@ public class KorisnikService {
         return korisnikRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 
 }

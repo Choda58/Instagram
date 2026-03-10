@@ -3,6 +3,7 @@ package com.instagram.userservice.controller;
 import com.instagram.userservice.dto.LoginRequest;
 import com.instagram.userservice.model.Korisnik;
 import com.instagram.userservice.service.KorisnikService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class KorisnikController {
     private final KorisnikService korisnikService;
 
     @PostMapping("/register")
-    public ResponseEntity<Korisnik> register(@RequestBody Korisnik korisnik){
+    public ResponseEntity<Korisnik> register(@RequestBody @Valid Korisnik korisnik) {
         return ResponseEntity.ok(korisnikService.register(korisnik));
     }
     @GetMapping

@@ -1,7 +1,9 @@
 package com.instagram.userservice.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,16 +20,18 @@ public class Korisnik {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
 
-    @Column(unique = true)
+    @NotBlank
+    @Size(min = 3, max = 20)
     private String username;
 
-    @Column(unique = true)
+    @Email
+    @NotBlank
     private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false)
+    @Size(min = 6)
     private String password;
 
     private String bio;
