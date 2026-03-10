@@ -1,4 +1,4 @@
-POST http://localhost:8081/api/users/registe
+POST http://localhost:8081/api/users/register
 Content-Type: application/json
 
 {
@@ -8,5 +8,5 @@ Content-Type: application/json
   "password": "123456",
   "bio": "Hello",
   "profilePicture": "",
-  "private": false
+  "isPrivateProfile": false
 }
