@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   postgres:
@@ -12,10 +10,23 @@ services:
     ports:
       - "5432:5432"
 
-  posts-api:
-    build: post-service
-    container_name: posts-api
+  user-service:
+    build: ./user-service
     ports:
-      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - postgres
+
+  post-service:
+    build: ./post-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - postgres
+
+  follow-service:
+    build: ./follow-service
+    ports:
+      - "8083:8083"
     depends_on:
       - postgres
