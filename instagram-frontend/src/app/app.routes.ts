@@ -17,6 +17,8 @@ export const routes: Routes = [
 
   { path: 'create-post', component: CreatePost },
 
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  { path: '**', redirectTo: 'login' }
 
 ];
