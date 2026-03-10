@@ -1,67 +1,64 @@
 package com.instagram.postservice.controller;
 
-import com.instagram.postservice.model.Post;
+import com.instagram.postservice.entity.PostEntity;
 import com.instagram.postservice.service.FileStorageService;
+import com.instagram.postservice.service.PostService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
 public class PostController {
 
-    private List<Post> posts = new ArrayList<>();
-    private Long idCounter = 1L;
-
     private final FileStorageService fileStorageService;
+    private final PostService postService;
 
-    public PostController(FileStorageService fileStorageService) {
+    public PostController(FileStorageService fileStorageService,
+                          PostService postService) {
         this.fileStorageService = fileStorageService;
+        this.postService = postService;
     }
 
     // GET all posts
     @GetMapping
-    public List<Post> getPosts() {
-        return posts;
+    public List<PostEntity> getPosts() {
+        return postService.getPosts();
     }
 
     // GET post by id
     @GetMapping("/{id}")
-    public Post getPost(@PathVariable Long id) {
-
-        return posts.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+    public PostEntity getPost(@PathVariable Long id) {
+        return postService.getPost(id);
     }
 
     // CREATE post with media
     @PostMapping
-    public Post createPost(
+    public PostEntity createPost(
             @RequestParam String description,
             @RequestParam List<MultipartFile> files) {
 
-       /* if (files.size() > 20) {
+        if (files.size() > 20) {
             throw new RuntimeException("Maximum 20 media items allowed");
-        }*/
+        }
 
-        Post post = new Post();
-        post.setId(idCounter++);
+        PostEntity post = new PostEntity();
         post.setDescription(description);
 
         List<String> mediaPaths = new ArrayList<>();
 
         for (MultipartFile file : files) {
 
-            // rule: max 50MB
+            // max 50MB
             if (file.getSize() > 50_000_000) {
                 throw new RuntimeException("File exceeds 50MB");
             }
 
             String fileName = file.getOriginalFilename();
 
-            // rule: only photo/video
+            // only photo/video
             if (!fileName.endsWith(".jpg") &&
                     !fileName.endsWith(".jpeg") &&
                     !fileName.endsWith(".png") &&
@@ -75,33 +72,23 @@ public class PostController {
             mediaPaths.add(path);
         }
 
-        post.setMedia(mediaPaths);
-        posts.add(post);
-
-        return post;
+        return postService.savePost(post, mediaPaths);
     }
 
     // UPDATE description
     @PutMapping("/{id}")
-    public Post updateDescription(
+    public PostEntity updateDescription(
             @PathVariable Long id,
             @RequestBody String description) {
 
-        Post post = posts.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Post not found"));
-
-        post.setDescription(description);
-
-        return post;
+        return postService.updateDescription(id, description);
     }
 
     // DELETE post
     @DeleteMapping("/{id}")
     public String deletePost(@PathVariable Long id) {
 
-        posts.removeIf(post -> post.getId().equals(id));
+        postService.deletePost(id);
 
         return "Post deleted";
     }
