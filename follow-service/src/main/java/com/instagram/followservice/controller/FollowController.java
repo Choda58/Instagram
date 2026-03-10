@@ -4,6 +4,7 @@ import com.instagram.followservice.model.Follow;
 import com.instagram.followservice.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import com.instagram.followservice.dto.FollowResponseDTO;
 
 import java.util.List;
 
@@ -35,11 +36,11 @@ public class FollowController {
         return followService.accept(followerId, followingId);
     }
     @GetMapping("/followers/{userId}")
-    public List<Follow> followers(@PathVariable Long userId){
+    public List<FollowResponseDTO> followers(@PathVariable Long userId){
         return followService.getFollowers(userId);
     }
     @GetMapping("/following/{userId}")
-    public List<Follow> following(@PathVariable Long userId){
+    public List<FollowResponseDTO> following(@PathVariable Long userId){
         return followService.getFollowing(userId);
     }
     @PostMapping("/reject")

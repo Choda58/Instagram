@@ -1,5 +1,6 @@
 package com.instagram.followservice.service;
 
+import com.instagram.followservice.dto.FollowResponseDTO;
 import com.instagram.followservice.model.Follow;
 import com.instagram.followservice.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +52,17 @@ public class FollowService {
 
         return followRepository.save(follow);
     }
-    public List<Follow> getFollowers(Long userId){
-        return followRepository.findByFollowingIdAndAcceptedTrue(userId);
+    public List<FollowResponseDTO> getFollowers(Long userId) {
+        return followRepository.findByFollowingIdAndAcceptedTrue(userId)
+                .stream()
+                .map(f -> new FollowResponseDTO(f.getFollowerId(), f.getFollowingId()))
+                .toList();
     }
-    public List<Follow> getFollowing(Long userId){
-        return followRepository.findByFollowerIdAndAcceptedTrue(userId);
+    public List<FollowResponseDTO> getFollowing(Long userId) {
+        return followRepository.findByFollowerIdAndAcceptedTrue(userId)
+                .stream()
+                .map(f -> new FollowResponseDTO(f.getFollowerId(), f.getFollowingId()))
+                .toList();
     }
     public void reject(Long followerId, Long followingId){
 
