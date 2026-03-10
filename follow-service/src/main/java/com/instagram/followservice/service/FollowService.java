@@ -15,6 +15,14 @@ public class FollowService {
 
     public Follow follow(Long followerId, Long followingId){
 
+        if (followerId.equals(followingId)) {
+            throw new RuntimeException("User cannot follow themselves");
+        }
+
+        if (followRepository.findByFollowerIdAndFollowingId(followerId, followingId).isPresent()) {
+            throw new RuntimeException("Already following this user");
+        }
+
         Follow follow = Follow.builder()
                 .followerId(followerId)
                 .followingId(followingId)
