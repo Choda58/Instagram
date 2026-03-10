@@ -4,6 +4,7 @@ import com.instagram.userservice.dto.LoginRequest;
 import com.instagram.userservice.model.Korisnik;
 import com.instagram.userservice.repository.KorisnikRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,10 @@ import java.util.List;
 public class KorisnikService {
 
     private final KorisnikRepository korisnikRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Korisnik register(Korisnik user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return korisnikRepository.save(user);
     }
 
@@ -28,7 +31,7 @@ public class KorisnikService {
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if(!user.getPassword().equals(request.getPassword())){
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw new RuntimeException("Wrong password");
         }
 
@@ -41,4 +44,21 @@ public class KorisnikService {
     public List<Korisnik> search(String username){
         return korisnikRepository.findByUsernameContaining(username);
     }
+    public Korisnik updateUser(Long id, Korisnik updated){
+
+        Korisnik user = korisnikRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(updated.getName());
+        user.setBio(updated.getBio());
+        user.setProfilePicture(updated.getProfilePicture());
+        user.setPrivateProfile(updated.isPrivateProfile());
+
+        return korisnikRepository.save(user);
+    }
+    public Korisnik getByUsername(String username){
+        return korisnikRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 }

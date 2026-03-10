@@ -1,10 +1,12 @@
-POST http://localhost:8081/api/users/register
+POST http://localhost:8081/api/users/registe
 Content-Type: application/json
 
 {
-  "name": "Marko",
-  "username": "marko123",
-  "email": "marko@mail.com",
+  "name": "Danilo",
+  "username": "danilo",
+  "email": "danilo@gmail.com",
   "password": "123456",
-  "isPrivate": false
+  "bio": "Hello",
+  "profilePicture": "",
+  "private": false
 }

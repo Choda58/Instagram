@@ -33,5 +33,5 @@ public class Korisnik {
 
     private String profilePicture;
 
-    private boolean isPrivate;
+    private boolean isPrivateProfile;
 }

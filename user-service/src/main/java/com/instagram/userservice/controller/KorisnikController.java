@@ -39,5 +39,14 @@ public class KorisnikController {
     public List<Korisnik> search(@RequestParam String username){
         return korisnikService.search(username);
     }
+    @PutMapping("/{id}")
+    public Korisnik updateUser(@PathVariable Long id, @RequestBody Korisnik updated){
+        return korisnikService.updateUser(id, updated);
+    }
+    @GetMapping("/username/{username}")
+    public Korisnik getByUsername(@PathVariable String username){
+        return korisnikService.getByUsername(username);
+    }
+
 
 }
