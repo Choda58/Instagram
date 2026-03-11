@@ -80,4 +80,12 @@ public class FollowService {
     public List<Follow> getPendingRequests(Long userId){
         return followRepository.findByFollowingIdAndAcceptedFalse(userId);
     }
+
+    public long countFollowers(Long userId){
+        return followRepository.countByFollowingIdAndAcceptedTrue(userId);
+    }
+
+    public long countFollowing(Long userId){
+        return followRepository.countByFollowerIdAndAcceptedTrue(userId);
+    }
 }

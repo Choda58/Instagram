@@ -59,4 +59,14 @@ public class FollowController {
     public List<Follow> requests(@PathVariable Long userId){
         return followService.getPendingRequests(userId);
     }
+
+    @GetMapping("/followers/count/{userId}")
+    public long countFollowers(@PathVariable Long userId){
+        return followService.countFollowers(userId);
+    }
+
+    @GetMapping("/following/count/{userId}")
+    public long countFollowing(@PathVariable Long userId){
+        return followService.countFollowing(userId);
+    }
 }
