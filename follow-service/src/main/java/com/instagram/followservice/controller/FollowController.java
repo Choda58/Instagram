@@ -10,10 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/follows")
-@RequiredArgsConstructor
 public class FollowController {
 
     private final FollowService followService;
+    public FollowController(FollowService followService) {
+        this.followService = followService;
+    }
 
     @PostMapping("/follow")
     public Follow follow(@RequestParam Long followerId,

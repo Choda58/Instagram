@@ -5,6 +5,7 @@ import com.instagram.followservice.model.Follow;
 import com.instagram.followservice.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -14,7 +15,19 @@ public class FollowService {
 
     private final FollowRepository followRepository;
 
+    private final RestTemplate restTemplate;
+    private void checkUserExists(Long userId){
+
+        String url = "http://localhost:8081/api/users/" + userId;
+
+        restTemplate.getForObject(url, Object.class);
+
+    }
+
     public Follow follow(Long followerId, Long followingId){
+
+        checkUserExists(followerId);
+        checkUserExists(followingId);
 
         if (followerId.equals(followingId)) {
             throw new RuntimeException("User cannot follow themselves");
