@@ -20,13 +20,13 @@ services:
   post-service:
     build: ./post-service
     ports:
-      - "8082:8082"
+      - "8083:8083"
     depends_on:
       - postgres
 
   follow-service:
     build: ./follow-service
     ports:
-      - "8083:8083"
+      - "8082:8082"
     depends_on:
       - postgres
