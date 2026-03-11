@@ -22,6 +22,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/register").permitAll()
                         .requestMatchers("/api/users/login").permitAll()
                         .requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/users/username/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
