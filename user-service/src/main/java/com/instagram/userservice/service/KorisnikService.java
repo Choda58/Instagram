@@ -52,6 +52,7 @@ public class KorisnikService {
     public List<Korisnik> search(String username){
         return korisnikRepository.findByUsernameContaining(username);
     }
+
     public Korisnik updateUser(Long id, Korisnik updated){
 
         Korisnik user = korisnikRepository.findById(id)

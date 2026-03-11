@@ -40,7 +40,7 @@ public class KorisnikController {
     public List<Korisnik> search(@RequestParam String username){
         return korisnikService.search(username);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/edit/{id}")
     public Korisnik updateUser(@PathVariable Long id, @RequestBody Korisnik updated){
         return korisnikService.updateUser(id, updated);
     }
