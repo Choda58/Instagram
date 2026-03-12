@@ -3,6 +3,7 @@ package com.instagram.postservice.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Entity
 @Table(name = "posts")
@@ -15,6 +16,7 @@ public class PostEntity {
     private Long userId;
 
     private String description;
+    private Date vremeobjave ;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -46,5 +48,14 @@ public class PostEntity {
 
     public void setMedia(List<MediaEntity> mediaEntities) {
         this.mediaEntities = mediaEntities;
+    }
+
+
+    public Date getVremeobjave() {
+        return vremeobjave;
+    }
+
+    public void setVremeobjave(Date vremeobjave) {
+        this.vremeobjave = vremeobjave;
     }
 }

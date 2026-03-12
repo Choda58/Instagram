@@ -5,6 +5,8 @@ import com.instagram.postservice.entity.PostEntity;
 import com.instagram.postservice.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,5 +55,17 @@ public class PostService {
 
     public void deletePost(Long id) {
         postRepository.deleteById(id);
+    }
+
+    public List<PostEntity> getOrederedlist() {
+        List<PostEntity>  p = postRepository.findAll();
+        p.sort(
+                Comparator.comparing(
+                        PostEntity::getVremeobjave,
+                        Comparator.nullsLast(Date::compareTo)
+                ).reversed()
+        );
+
+        return p;
     }
 }

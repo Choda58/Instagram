@@ -89,3 +89,7 @@ DELETE http://localhost:8083/comments/2
 
 ###
 GET http://localhost:8083/media/image.jpg
+
+
+###
+GET http://localhost:8083/posts/ordered

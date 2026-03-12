@@ -103,4 +103,12 @@ public class PostController {
 
         return "Post deleted successfully";
     }
+
+    //vreme objave hronoloski
+    @GetMapping("/ordered")
+    public List<PostEntity> Orderedlist (){
+        return postService.getOrederedlist();
+    }
+
+
 }
