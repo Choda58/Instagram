@@ -39,6 +39,9 @@ public class PostService {
         return postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
     }
+    public List<PostEntity> getPostsByUser(Long userId) {
+        return postRepository.findByUserId(userId);
+    }
 
     public PostEntity updateDescription(Long id, String description) {
 

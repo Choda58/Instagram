@@ -13,10 +13,10 @@ public class MediaEntity {
 
     private String url;
 
-    private Long size;
+    //private Long size;
 
-    @Enumerated(EnumType.STRING)
-    private MediaType type;
+   // @Enumerated(EnumType.STRING)
+    //private MediaType type;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -28,11 +28,11 @@ public class MediaEntity {
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
 
-    public Long getSize() { return size; }
-    public void setSize(Long size) { this.size = size; }
+   /// public Long getSize() { return size; }
+   /// public void setSize(Long size) { this.size = size; }
 
-    public MediaType getType() { return type; }
-    public void setType(MediaType type) { this.type = type; }
+    ///public MediaType getType() { return type; }
+    ///public void setType(MediaType type) { this.type = type; }
 
     public PostEntity getPost() { return post; }
     public void setPost(PostEntity post) { this.post = post; }

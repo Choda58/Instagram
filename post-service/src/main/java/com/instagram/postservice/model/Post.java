@@ -7,14 +7,24 @@ public class Post {
 
     private Long id;
     private String description;
+    private Long userId;
     private List<String> media = new ArrayList<>();
 
     public Long getId() {
         return id;
     }
 
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {

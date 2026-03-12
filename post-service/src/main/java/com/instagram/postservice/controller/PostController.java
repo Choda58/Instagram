@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
+@CrossOrigin(origins = "*") // allows Angular frontend
 public class PostController {
 
     private final FileStorageService fileStorageService;
@@ -34,42 +35,52 @@ public class PostController {
         return postService.getPost(id);
     }
 
+    // GET all posts of a specific user
+    @GetMapping("/user/{userId}")
+    public List<PostEntity> getPostsByUser(@PathVariable Long userId) {
+        return postService.getPostsByUser(userId);
+    }
+
     // CREATE post with media
     @PostMapping
     public PostEntity createPost(
+            @RequestParam String userId,
             @RequestParam String description,
-            @RequestParam List<MultipartFile> files) {
+            @RequestParam(required = false) List<MultipartFile> files) {
 
-        if (files.size() > 20) {
+        if (files != null && files.size() > 20) {
             throw new RuntimeException("Maximum 20 media items allowed");
         }
-
+       Long L = Long.parseLong(userId);
         PostEntity post = new PostEntity();
+        post.setUserId(L);
         post.setDescription(description);
 
         List<String> mediaPaths = new ArrayList<>();
 
-        for (MultipartFile file : files) {
+        if (files != null) {
+            for (MultipartFile file : files) {
 
-            // max 50MB
-            if (file.getSize() > 50_000_000) {
-                throw new RuntimeException("File exceeds 50MB");
+                // max 50MB
+                if (file.getSize() > 50_000_000) {
+                    throw new RuntimeException("File exceeds 50MB");
+                }
+
+                String fileName = file.getOriginalFilename().toLowerCase();
+
+                // only image/video
+                if (!fileName.endsWith(".jpg") &&
+                        !fileName.endsWith(".jpeg") &&
+                        !fileName.endsWith(".png") &&
+                        !fileName.endsWith(".mp4") &&
+                        !fileName.endsWith(".mov")) {
+
+                    throw new RuntimeException("Only image or video allowed");
+                }
+
+                String path = fileStorageService.saveFile(file);
+                mediaPaths.add(path);
             }
-
-            String fileName = file.getOriginalFilename();
-
-            // only photo/video
-            if (!fileName.endsWith(".jpg") &&
-                    !fileName.endsWith(".jpeg") &&
-                    !fileName.endsWith(".png") &&
-                    !fileName.endsWith(".mp4") &&
-                    !fileName.endsWith(".mov")) {
-
-                throw new RuntimeException("Only photo or video allowed");
-            }
-
-            String path = fileStorageService.saveFile(file);
-            mediaPaths.add(path);
         }
 
         return postService.savePost(post, mediaPaths);
@@ -90,6 +101,6 @@ public class PostController {
 
         postService.deletePost(id);
 
-        return "Post deleted";
+        return "Post deleted successfully";
     }
 }

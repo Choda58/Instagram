@@ -1,0 +1,86 @@
+##### Posts CONTROLER #####
+
+###
+GET http://localhost:8083/posts
+
+###
+GET http://localhost:8083/posts/4
+
+###
+GET http://localhost:8083/posts/user/1
+
+###
+PUT http://localhost:8083/posts/4
+Content-Type: text/plain
+
+izmenjena deksripcija
+
+###
+DELETE http://localhost:8083/posts/1
+
+###
+POST http://localhost:8083/posts
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="userId"
+
+1
+--boundary
+Content-Disposition: form-data; name="description"
+
+test post
+--boundary
+Content-Disposition: form-data; name="files"; filename="image.jpg"
+Content-Type: image/jpeg
+
+< ./image.jpg
+--boundary--
+
+
+
+
+
+
+##### likes controllers requests #####
+
+###
+GET http://localhost:8083/likes/count/4
+
+
+###
+POST http://localhost:8083/likes?
+    userId=2&
+    postId=4
+
+
+###
+DELETE http://localhost:8083/likes?
+    userId=2&
+    postId=4
+
+
+##### comments controllers #####
+
+###
+GET http://localhost:8083/comments/4
+
+###
+POST http://localhost:8083/comments
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "postId": 4,
+  "text": "Test komentar 2"
+}
+
+###
+PUT http://localhost:8083/comments/1
+Content-Type: text/plain
+
+izmenjem komentar
+
+
+###
+DELETE http://localhost:8083/comments/2
