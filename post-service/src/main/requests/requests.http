@@ -84,3 +84,8 @@ izmenjem komentar
 
 ###
 DELETE http://localhost:8083/comments/2
+
+##### Picture #####
+
+###
+GET http://localhost:8083/media/image.jpg
