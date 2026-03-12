@@ -14,5 +14,7 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 
     Optional<Korisnik> findByEmail(String email);
 
+    Optional<Korisnik> findByUsernameOrEmail(String username, String email);
+
     List<Korisnik> findByUsernameContaining(String username);
 }

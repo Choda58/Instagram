@@ -1,5 +1,6 @@
 package com.instagram.userservice.service;
 
+import com.instagram.userservice.dto.KorisnikResponse;
 import com.instagram.userservice.dto.LoginRequest;
 import com.instagram.userservice.model.Korisnik;
 import com.instagram.userservice.repository.KorisnikRepository;
@@ -33,7 +34,7 @@ public class KorisnikService {
         return korisnikRepository.findAll();
     }
 
-    public Korisnik login(LoginRequest request){
+    public KorisnikResponse login(LoginRequest request){
 
         Korisnik user = korisnikRepository
                 .findByUsername(request.getUsername())
@@ -43,7 +44,14 @@ public class KorisnikService {
             throw new RuntimeException("Wrong password");
         }
 
-        return user;
+        return new KorisnikResponse(
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                user.getBio(),
+                user.getProfilePicture(),
+                user.isPrivateProfile()
+        );
     }
     public Korisnik getUser(Long id){
         return korisnikRepository.findById(id)
