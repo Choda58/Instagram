@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PostService {
 
-  private apiUrl = 'http://localhost:8083';
+  private apiUrl = "http://localhost:8083";
 
   constructor(private http: HttpClient) {}
 
@@ -42,9 +42,7 @@ export class PostService {
   }
 
   getLikesCount(postId: number) {
-    return this.http.get(
-      `${this.apiUrl}/likes/count/${postId}`
-    );
+    return this.http.get(`${this.apiUrl}/likes/count/${postId}`);
   }
 
 }

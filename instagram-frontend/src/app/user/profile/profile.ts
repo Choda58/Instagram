@@ -7,10 +7,11 @@ import { UserService } from '../../services/user';
 import { PostService } from '../../services/post';
 import { FollowService } from '../../services/follow';
 import { Post } from '../../post/post/post';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule,Post],
+  imports: [CommonModule, FormsModule, Post],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -29,7 +30,7 @@ export class Profile implements OnInit {
   description: string = "";
   selectedFiles: File[] = [];
 
-  loggedUserId = 1;
+  loggedUserId = 1;   // vraćeno kao kod tebe
 
   constructor(
     public userService: UserService,
