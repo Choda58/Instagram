@@ -150,5 +150,5 @@ class FollowServiceTest {
 
         assertEquals(5, result);
     }
-
 }
+
