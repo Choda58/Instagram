@@ -30,7 +30,7 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": ["localhost", "0.0.0.0"]
+              "allowedHosts": []
             },
             "ssr": {
               "entry": "src/server.ts"

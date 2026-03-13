@@ -5,6 +5,11 @@ import com.instagram.postservice.service.FileStorageService;
 import com.instagram.postservice.service.PostService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +56,7 @@ public class PostController {
         if (files != null && files.size() > 20) {
             throw new RuntimeException("Maximum 20 media items allowed");
         }
-       Long L = Long.parseLong(userId);
+        Long L = Long.parseLong(userId);
         PostEntity post = new PostEntity();
         post.setUserId(L);
         post.setDescription(description);
@@ -106,9 +111,32 @@ public class PostController {
 
     //vreme objave hronoloski
     @GetMapping("/ordered")
-    public List<PostEntity> Orderedlist (){
+    public List<PostEntity> Orderedlist() {
         return postService.getOrederedlist();
     }
 
 
-}
+    @GetMapping("/media/{filename}")
+    public ResponseEntity<Resource> getMedia(@PathVariable String filename) {
+
+        try {
+
+            Path filePath = Paths.get("uploads").resolve(filename);
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if(resource.exists() && resource.isReadable()) {
+
+                return ResponseEntity
+                        .ok()
+                        .header("Content-Type", "image/jpeg")
+                        .body(resource);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+    }

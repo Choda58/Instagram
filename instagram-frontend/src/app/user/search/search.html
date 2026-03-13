@@ -1,0 +1,19 @@
+<h2>Search users</h2>
+
+<input
+  type="text"
+  [(ngModel)]="username"
+  placeholder="username"
+/>
+
+<button (click)="searchUsers()">Search</button>
+
+<hr>
+
+<div *ngFor="let user of users">
+
+  <p (click)="openProfile(user.id)" style="cursor:pointer">
+    {{user.username}}
+  </p>
+
+</div>

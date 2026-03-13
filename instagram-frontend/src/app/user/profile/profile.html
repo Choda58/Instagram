@@ -1,0 +1,72 @@
+<div *ngIf="user">
+
+  <h2>Profile</h2>
+
+  <img [src]="userService.getProfileImage(user.id)" width="150">
+
+  <p><b>Username:</b> {{user.username}}</p>
+
+  <p><b>Name:</b> {{user.name}}</p>
+
+  <p><b>Bio:</b> {{user.bio}}</p>
+
+  <p><b>Followers:</b> {{followersCount}}</p>
+
+  <p><b>Following:</b> {{followingCount}}</p>
+
+
+  <!-- FOLLOW / UNFOLLOW -->
+
+  <button *ngIf="userId !== loggedUserId && !isFollowingUser"
+          (click)="follow()">
+    Follow
+  </button>
+
+  <button *ngIf="userId !== loggedUserId && isFollowingUser"
+          (click)="unfollow()">
+    Unfollow
+  </button>
+
+</div>
+
+
+<hr>
+
+
+<h3>Create Post</h3>
+
+<textarea [(ngModel)]="description"
+          placeholder="Write description...">
+</textarea>
+
+<br><br>
+
+<input type="file"
+       multiple
+       (change)="onFileSelected($event)">
+
+<br><br>
+
+<button (click)="createPost()">Create Post</button>
+
+
+<hr>
+
+
+<h3>Posts</h3>
+
+<div *ngFor="let post of posts">
+
+  <p>{{post.description}}</p>
+
+  <div *ngFor="let media of post.media">
+
+    <img
+      [src]="'http://localhost:8083/posts/media/' + media.url.split('/').pop()"
+      width="200">
+
+  </div>
+
+  <hr>
+
+</div>
