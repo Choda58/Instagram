@@ -1,13 +1,27 @@
 <div class="post">
 
-  <p>{{post.description}}</p>
-
-  <div *ngFor="let media of post.media">
-    <img
-      [src]="'http://localhost:8083/posts/media/' + media.url.split('/').pop()"
-      width="200">
+  <!-- USERNAME -->
+  <div class="post-header">
+    <a [routerLink]="['/profile', post.userId]">
+      User {{post.userId}}
+    </a>
   </div>
 
+  <!-- DESCRIPTION -->
+  <p class="post-description">
+    {{post.description}}
+  </p>
+
+  <!-- IMAGE -->
+  <div *ngIf="post.media?.length">
+    <img
+      *ngFor="let media of post.media"
+      class="post-image"
+      [src]="'http://localhost:8083/posts/media/' + media.url.split('/').pop()"
+    >
+  </div>
+
+  <!-- LIKE -->
   <div class="post-actions">
 
     <button type="button" (click)="toggleLike()">
@@ -15,38 +29,53 @@
       <span *ngIf="liked">❤️ Unlike</span>
     </button>
 
-    <p>{{likesCount}} likes</p>
+    <span>{{likesCount}} likes</span>
 
   </div>
 
   <hr>
 
+  <!-- COMMENTS -->
   <div class="comments">
 
-    <div *ngFor="let comment of comments">
+    <div *ngFor="let comment of comments" class="comment">
 
       <div *ngIf="editingCommentId !== comment.id">
         <p>{{comment.text}}</p>
 
-        <button type="button" (click)="startEdit(comment)">edit</button>
-        <button type="button" (click)="deleteComment(+comment.id)">delete</button>
+        <button type="button" (click)="startEdit(comment)">
+          edit
+        </button>
+
+        <button type="button" (click)="deleteComment(+comment.id)">
+          delete
+        </button>
       </div>
 
       <div *ngIf="editingCommentId === comment.id">
         <input [(ngModel)]="editedText">
-        <button type="button" (click)="saveEdit(comment)">Save</button>
-      </div>
 
-      <hr>
+        <button type="button" (click)="saveEdit(comment)">
+          Save
+        </button>
+      </div>
 
     </div>
 
-    <input
-      [(ngModel)]="commentText"
-      placeholder="Add comment..."
-    >
+    <!-- ADD COMMENT -->
 
-    <button type="button" (click)="addComment()">Post</button>
+    <div class="add-comment">
+
+      <input
+        [(ngModel)]="commentText"
+        placeholder="Add comment..."
+      >
+
+      <button type="button" (click)="addComment()">
+        Post
+      </button>
+
+    </div>
 
   </div>
 

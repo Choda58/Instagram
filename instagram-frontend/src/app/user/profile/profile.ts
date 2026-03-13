@@ -6,12 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user';
 import { PostService } from '../../services/post';
 import { FollowService } from '../../services/follow';
-import { Post } from '../../post/post/post';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, Post],
+  imports: [CommonModule, FormsModule],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -30,7 +29,7 @@ export class Profile implements OnInit {
   description: string = "";
   selectedFiles: File[] = [];
 
-  loggedUserId = 1;   // vraćeno kao kod tebe
+  loggedUserId = 1;
 
   constructor(
     public userService: UserService,
@@ -43,28 +42,23 @@ export class Profile implements OnInit {
 
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // load user
     this.userService.getUserById(this.userId)
       .subscribe((data: any) => {
         this.user = data;
       });
 
-    // load posts
     this.loadPosts();
 
-    // load followers count
     this.followService.getFollowers(this.userId)
       .subscribe((data: any) => {
         this.followersCount = data.length;
       });
 
-    // load following count
     this.followService.getFollowing(this.userId)
       .subscribe((data: any) => {
         this.followingCount = data.length;
       });
 
-    // check follow status
     this.followService.isFollowing(this.loggedUserId, this.userId)
       .subscribe((data: any) => {
         this.isFollowingUser = data;
@@ -126,33 +120,25 @@ export class Profile implements OnInit {
 
   }
 
-  follow() {
+  follow(){
 
     this.followService.follow(this.loggedUserId, this.userId)
       .subscribe(() => {
 
         this.isFollowingUser = true;
-
-        this.followService.getFollowers(this.userId)
-          .subscribe((data: any) => {
-            this.followersCount = data.length;
-          });
+        this.followersCount++;
 
       });
 
   }
 
-  unfollow() {
+  unfollow(){
 
     this.followService.unfollow(this.loggedUserId, this.userId)
       .subscribe(() => {
 
         this.isFollowingUser = false;
-
-        this.followService.getFollowers(this.userId)
-          .subscribe((data: any) => {
-            this.followersCount = data.length;
-          });
+        this.followersCount--;
 
       });
 

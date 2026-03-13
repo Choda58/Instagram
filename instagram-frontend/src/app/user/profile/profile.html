@@ -1,61 +1,85 @@
-<div *ngIf="user">
+<div class="profile-container" *ngIf="user">
 
-  <h2>Profile</h2>
+  <div class="profile-header">
 
-  <img [src]="userService.getProfileImage(user.id)" width="150">
+    <img
+      class="profile-avatar"
+      [src]="userService.getProfileImage(user.id)"
+      onerror="this.src='https://i.imgur.com/HeIi0wU.png'"
+    >
 
-  <p><b>Username:</b> {{user.username}}</p>
+    <div class="profile-info">
 
-  <p><b>Name:</b> {{user.name}}</p>
+      <h2>{{user.username}}</h2>
 
-  <p><b>Bio:</b> {{user.bio}}</p>
+      <div class="profile-stats">
+        <span><b>{{posts.length}}</b> posts</span>
+        <span><b>{{followersCount}}</b> followers</span>
+        <span><b>{{followingCount}}</b> following</span>
+      </div>
 
-  <p><b>Followers:</b> {{followersCount}}</p>
+      <p class="profile-name">{{user.name}}</p>
+      <p class="profile-bio">{{user.bio}}</p>
 
-  <p><b>Following:</b> {{followingCount}}</p>
+      <div *ngIf="userId !== loggedUserId">
 
+        <button *ngIf="!isFollowingUser"
+                (click)="follow()"
+                class="follow-btn">
+          Follow
+        </button>
 
-  <!-- FOLLOW / UNFOLLOW -->
+        <button *ngIf="isFollowingUser"
+                (click)="unfollow()"
+                class="unfollow-btn">
+          Unfollow
+        </button>
 
-  <button *ngIf="userId !== loggedUserId && !isFollowingUser"
-          (click)="follow()">
-    Follow
-  </button>
+      </div>
 
-  <button *ngIf="userId !== loggedUserId && isFollowingUser"
-          (click)="unfollow()">
-    Unfollow
-  </button>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <div class="create-post">
+
+    <h3>Create Post</h3>
+
+    <textarea
+      [(ngModel)]="description"
+      name="description"
+      placeholder="Write description..."
+    ></textarea>
+
+    <input
+      type="file"
+      multiple
+      (change)="onFileSelected($event)"
+    >
+
+    <button type="button" (click)="createPost()">
+      Create Post
+    </button>
+
+  </div>
+
+  <hr>
+
+  <h3>Posts</h3>
+
+  <div class="posts-grid">
+
+    <div *ngFor="let post of posts">
+
+      <img
+        *ngIf="post.media?.length"
+        [src]="'http://localhost:8083/posts/media/' + post.media[0].url.split('/').pop()"
+      >
+
+    </div>
+
+  </div>
 
 </div>
-
-<hr>
-
-<h3>Create Post</h3>
-
-<textarea [(ngModel)]="description"
-          placeholder="Write description...">
-</textarea>
-
-<br><br>
-
-<input type="file"
-       multiple
-       (change)="onFileSelected($event)">
-
-<br><br>
-
-<button (click)="createPost()">Create Post</button>
-
-<hr>
-
-<h3>Posts</h3>
-
-<ng-container *ngFor="let post of posts">
-
-  <app-post
-    *ngIf="post.description || post.media?.length"
-    [post]="post">
-  </app-post>
-
-</ng-container>

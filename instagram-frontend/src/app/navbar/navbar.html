@@ -1,0 +1,17 @@
+<nav class="navbar">
+
+  <div class="navbar-container">
+
+    <div class="navbar-logo">
+      Instagram
+    </div>
+
+    <div class="navbar-links">
+      <a routerLink="/timeline">Timeline</a>
+      <a routerLink="/search">Search</a>
+      <a [routerLink]="['/profile', loggedUserId]">Profile</a>
+    </div>
+
+  </div>
+
+</nav>
