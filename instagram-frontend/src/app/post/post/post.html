@@ -1,1 +1,26 @@
-<p>post works!</p>
+<div class="post">
+
+  <div *ngFor="let media of post.media">
+
+    <img
+      [src]="'http://localhost:8083/posts/media/' + media.url.split('/').pop()"
+      width="200">
+
+  </div>
+
+  <p>{{post.description}}</p>
+
+  <div class="post-actions">
+
+    <button (click)="toggleLike()">
+      <span *ngIf="!liked">🤍 Like</span>
+      <span *ngIf="liked">❤️ Unlike</span>
+    </button>
+
+    <p>{{likesCount}} likes</p>
+
+  </div>
+
+  <hr>
+
+</div>

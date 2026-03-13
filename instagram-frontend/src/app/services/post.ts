@@ -28,4 +28,23 @@ export class PostService {
     return this.http.post(`${this.apiUrl}/posts`, formData);
   }
 
+  likePost(postId: number, userId: number) {
+    return this.http.post(
+      `${this.apiUrl}/likes?userId=${userId}&postId=${postId}`,
+      null
+    );
+  }
+
+  unlikePost(postId: number, userId: number) {
+    return this.http.delete(
+      `${this.apiUrl}/likes?userId=${userId}&postId=${postId}`
+    );
+  }
+
+  getLikesCount(postId: number) {
+    return this.http.get(
+      `${this.apiUrl}/likes/count/${postId}`
+    );
+  }
+
 }

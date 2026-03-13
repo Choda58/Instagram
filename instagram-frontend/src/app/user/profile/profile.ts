@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user';
 import { PostService } from '../../services/post';
 import { FollowService } from '../../services/follow';
-
+import { Post } from '../../post/post/post';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,Post],
   templateUrl: './profile.html',
   styleUrl: './profile.css'
 })
@@ -72,10 +72,33 @@ export class Profile implements OnInit {
   }
 
   loadPosts() {
+
     this.postService.getPostsByUser(this.userId)
       .subscribe((data: any) => {
-        this.posts = data;
+
+        let mergedPosts: any[] = [];
+        let currentPost: any = null;
+
+        for (let p of data) {
+
+          if (p.description && p.description.trim() !== "") {
+
+            currentPost = { ...p };
+            mergedPosts.push(currentPost);
+
+          }
+          else if (p.media && p.media.length > 0 && currentPost) {
+
+            currentPost.media = p.media;
+
+          }
+
+        }
+
+        this.posts = mergedPosts;
+
       });
+
   }
 
   onFileSelected(event: any) {

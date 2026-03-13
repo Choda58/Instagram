@@ -25,12 +25,17 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./post/timeline/timeline').then(m => m.Timeline)
     },
+
     {
         path: 'profile/:id',
         loadComponent: () =>
             import('./user/profile/profile').then(m => m.Profile)
     },
 
-
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+    }
 
 ];
