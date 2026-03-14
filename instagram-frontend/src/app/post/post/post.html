@@ -1,18 +1,15 @@
 <div class="post">
 
-  <!-- USERNAME -->
   <div class="post-header">
     <a [routerLink]="['/profile', post.userId]">
       User {{post.userId}}
     </a>
   </div>
 
-  <!-- DESCRIPTION -->
   <p class="post-description">
     {{post.description}}
   </p>
 
-  <!-- IMAGE -->
   <div *ngIf="post.media?.length">
     <img
       *ngFor="let media of post.media"
@@ -21,61 +18,71 @@
     >
   </div>
 
-  <!-- LIKE -->
   <div class="post-actions">
 
-    <button type="button" (click)="toggleLike()">
-      <span *ngIf="!liked">🤍 Like</span>
-      <span *ngIf="liked">❤️ Unlike</span>
-    </button>
 
-    <span>{{likesCount}} likes</span>
+    <span class="action like" (click)="toggleLike()">
+  <span *ngIf="!liked">🤍</span>
+  <span *ngIf="liked">❤️</span>
+      {{likesCount}}
+</span>
+
+    <span class="action comment" (click)="toggleComments()">
+  💬 {{comments.length}}
+</span>
+
 
   </div>
 
   <hr>
 
-  <!-- COMMENTS -->
-  <div class="comments">
+  <div *ngIf="showComments" class="comments">
+
 
     <div *ngFor="let comment of comments" class="comment">
 
-      <div *ngIf="editingCommentId !== comment.id">
-        <p>{{comment.text}}</p>
+      <!-- NORMAL VIEW -->
+      <ng-container *ngIf="editingCommentId !== comment.id">
 
-        <button type="button" (click)="startEdit(comment)">
-          edit
-        </button>
+    <span class="comment-left">
+      <b>User {{comment.userId}}</b> {{comment.text}}
+    </span>
 
-        <button type="button" (click)="deleteComment(+comment.id)">
-          delete
-        </button>
-      </div>
+        <span
+          *ngIf="comment.userId === loggedUserId"
+          class="comment-actions">
 
-      <div *ngIf="editingCommentId === comment.id">
-        <input [(ngModel)]="editedText">
+      <button type="button" (click)="startEdit(comment)">edit</button>
+      <button type="button" (click)="deleteComment(comment.id)">delete</button>
 
-        <button type="button" (click)="saveEdit(comment)">
-          Save
-        </button>
-      </div>
+    </span>
+
+      </ng-container>
+
+      <!-- EDIT MODE -->
+      <ng-container *ngIf="editingCommentId === comment.id">
+
+        <input
+          [(ngModel)]="editedText"
+          (keyup.enter)="saveEdit(comment); $event.preventDefault()"
+          class="comment-input"
+        />
+
+      </ng-container>
 
     </div>
-
-    <!-- ADD COMMENT -->
 
     <div class="add-comment">
 
       <input
         [(ngModel)]="commentText"
+        (keyup.enter)="addComment()"
         placeholder="Add comment..."
+        class="comment-input"
       >
 
-      <button type="button" (click)="addComment()">
-        Post
-      </button>
-
     </div>
+
 
   </div>
 

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './login.html'
+  imports: [FormsModule, RouterLink],
+  templateUrl: './login.html',
+  styleUrl: './login.css'
 })
 export class Login {
 
@@ -26,11 +27,23 @@ export class Login {
       password: this.password
     };
 
-    this.userService.login(data).subscribe((response: any) => {
+    this.userService.login(data).subscribe({
 
-      console.log(response);
+      next: (res: any) => {
 
-      this.router.navigate(['/timeline']);
+        console.log(res);
+
+        // čuvamo userId za ostatak aplikacije
+        localStorage.setItem("userId", res.id);
+
+        // idemo na timeline
+        this.router.navigate(['/timeline']);
+
+      },
+
+      error: () => {
+        alert("Invalid username or password");
+      }
 
     });
 

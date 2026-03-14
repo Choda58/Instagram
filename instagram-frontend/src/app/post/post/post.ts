@@ -10,7 +10,7 @@ import {RouterLink} from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './post.html',
-  styleUrl: './post.css'
+  styleUrls: ['./post.css']
 })
 export class Post implements OnChanges {
 
@@ -81,14 +81,17 @@ export class Post implements OnChanges {
 
   addComment() {
 
-    if (!this.commentText.trim()) return;
+    const text = this.commentText.trim();
+
+    if (!text) return;
+
+    this.commentText = "";
 
     this.commentService
-      .addComment(this.post.id, this.loggedUserId, this.commentText)
-      .subscribe(() => {
+      .addComment(this.post.id, this.loggedUserId, text)
+      .subscribe((comment: any) => {
 
-        this.commentText = "";
-        this.loadComments();
+        this.comments.push(comment);
 
       });
 
@@ -114,14 +117,27 @@ export class Post implements OnChanges {
 
   saveEdit(comment: any) {
 
-    this.commentService.updateComment(comment.id, this.editedText)
+    const text = this.editedText.trim();
+
+    if (!text) {
+      this.editingCommentId = null;
+      return;
+    }
+
+    this.commentService.updateComment(comment.id, text)
       .subscribe(() => {
 
-        comment.text = this.editedText;
+        comment.text = text;
+        this.editedText = "";
         this.editingCommentId = null;
 
       });
 
+  }
+  showComments = false;
+
+  toggleComments(){
+    this.showComments = !this.showComments;
   }
 
 }

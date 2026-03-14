@@ -1,27 +1,50 @@
-<h2>Register</h2>
+<div class="register-page">
 
-<form (ngSubmit)="register()">
+  <div class="register-box">
 
-  <div>
-    <label>Username</label>
-    <input type="text" [(ngModel)]="username" name="username">
+    <h2 class="logo">Instagram</h2>
+
+    <form (ngSubmit)="register()">
+
+      <input
+        type="text"
+        placeholder="Username"
+        [(ngModel)]="username"
+        name="username"
+      >
+
+      <input
+        type="text"
+        placeholder="Name"
+        [(ngModel)]="name"
+        name="name"
+      >
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+      >
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+      >
+
+      <button type="submit">
+        Sign up
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Log in</a>
+    </p>
+
   </div>
 
-  <div>
-    <label>Name</label>
-    <input type="text" [(ngModel)]="name" name="name">
-  </div>
-
-  <div>
-    <label>Email</label>
-    <input type="email" [(ngModel)]="email" name="email">
-  </div>
-
-  <div>
-    <label>Password</label>
-    <input type="password" [(ngModel)]="password" name="password">
-  </div>
-
-  <button type="submit">Register</button>
-
-</form>
+</div>

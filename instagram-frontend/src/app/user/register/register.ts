@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { UserService } from '../../services/user';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './register.html'
+  imports: [FormsModule,RouterLink],
+  templateUrl: './register.html',
+  styleUrl: './register.css'
 })
 export class Register {
 
@@ -19,13 +20,14 @@ export class Register {
   constructor(
     private userService: UserService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   register(): void {
 
     const data = {
-      username: this.username,
       name: this.name,
+      username: this.username,
       email: this.email,
       password: this.password,
       bio: "",
@@ -37,7 +39,6 @@ export class Register {
       next: (response) => {
 
         console.log(response);
-
         alert("User registered!");
 
         this.router.navigate(['/login']);
@@ -50,5 +51,4 @@ export class Register {
     });
 
   }
-
 }
